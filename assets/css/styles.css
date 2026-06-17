@@ -156,32 +156,24 @@ body {
 
 /* --------------------- Resultado --------------------- */
 .resultado {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
-    z-index: 20;
-    padding: clamp(0.9rem, 4vw, 1.4rem) clamp(1.4rem, 6vw, 2.6rem);
+    /* Vive en el flujo de la mesa, en el hueco entre ambas manos.
+       Oculto por defecto: no ocupa espacio ni genera gap. */
+    display: none;
+    align-self: center;
+    max-width: 100%;
+    padding: clamp(0.7rem, 3vw, 1.1rem) clamp(1.4rem, 6vw, 2.6rem);
     border-radius: 18px;
     font-weight: 800;
-    font-size: clamp(1.3rem, 6vw, 2.4rem);
+    font-size: clamp(1.2rem, 5.5vw, 2.2rem);
     text-align: center;
-    white-space: nowrap;
     color: #fff;
     background: rgba(0, 0, 0, 0.85);
     border: 2px solid var(--oro);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-    /* oculto por defecto */
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
 }
 
 .resultado--visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, -50%) scale(1);
+    display: block;
     animation: aparecerResultado 0.4s ease;
 }
 
@@ -202,9 +194,9 @@ body {
 }
 
 @keyframes aparecerResultado {
-    0%   { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
-    60%  { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(1); }
+    0%   { transform: scale(0.6); opacity: 0; }
+    60%  { transform: scale(1.06); opacity: 1; }
+    100% { transform: scale(1); }
 }
 
 /* --------------------- Controles --------------------- */
