@@ -1,25 +1,243 @@
-html, body {
-    margin: 0px;
-    background-color: #2F4F30;
-    color: white;
+/* ===========================================================
+   Blackjack — diseño y responsividad
+   =========================================================== */
+
+:root {
+    --felt-1: #0f5132;
+    --felt-2: #0b3d2e;
+    --felt-edge: #062a1e;
+    --oro: #f4c430;
+    --oro-suave: #e7b528;
+    --rojo: #e23b3b;
+    --texto: #f5f7f4;
+    --texto-tenue: rgba(245, 247, 244, 0.7);
+    --sombra-carta: 0 6px 14px rgba(0, 0, 0, 0.45);
+
+    /* Ancho fluido de cada carta: nunca menor a 56px, ideal 16vw, máx 120px */
+    --card-w: clamp(56px, 16vw, 120px);
 }
 
+* {
+    box-sizing: border-box;
+}
 
+html, body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    color: var(--texto);
+    background:
+        radial-gradient(ellipse at 50% 18%, var(--felt-1) 0%, var(--felt-2) 55%, var(--felt-edge) 100%);
+    background-attachment: fixed;
+}
+
+/* ----------------------- Cabecera ----------------------- */
 .titulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: clamp(0.9rem, 3vw, 1.6rem);
+    background: linear-gradient(180deg, #111 0%, #000 100%);
+    border-bottom: 3px solid var(--oro);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+}
+
+.titulo__texto {
+    margin: 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    font-size: clamp(1.6rem, 7vw, 3rem);
+    background: linear-gradient(180deg, #fff 0%, var(--oro) 60%, var(--oro-suave) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.titulo__suit {
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    color: var(--oro);
+    line-height: 1;
+}
+
+.titulo__suit--rojo {
+    color: var(--rojo);
+}
+
+/* ------------------------- Mesa ------------------------- */
+.mesa {
+    flex: 1;
+    width: min(960px, 100%);
+    margin: 0 auto;
+    padding: clamp(0.8rem, 3vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 3vw, 1.8rem);
+}
+
+.mano {
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: clamp(0.8rem, 2.5vw, 1.4rem);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.mano__cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+}
+
+.mano__nombre {
+    margin: 0;
+    font-weight: 800;
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    letter-spacing: 0.01em;
+}
+
+.mano__puntos {
+    flex: none;
+    min-width: 2.6em;
     text-align: center;
-    background-color: black;
-    color: white;
-    padding: 20px;
-    font-size: 25px;
+    padding: 0.25em 0.6em;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    color: #111;
+    background: linear-gradient(180deg, var(--oro) 0%, var(--oro-suave) 100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* ----------------------- Cartas ----------------------- */
+.cartas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    /* altura mínima reservada según el ancho de carta (proporción ~1.4) */
+    min-height: calc(var(--card-w) * 1.4 + 12px);
+    padding-left: calc(var(--card-w) * 0.45);
 }
 
 .carta {
-    position: relative;
-    width: 150px;
-    left: 100px;
-    margin-left: -75px;
+    width: var(--card-w);
+    height: auto;
+    border-radius: calc(var(--card-w) * 0.07);
+    margin-left: calc(var(--card-w) * -0.45);
+    box-shadow: var(--sombra-carta);
+    transition: transform 0.18s ease;
+    animation: repartir 0.32s ease backwards;
 }
 
-#computadora-cartas, #jugador-cartas {
-    height: 240px;
+.carta:hover {
+    transform: translateY(-10px);
+    z-index: 2;
+}
+
+@keyframes repartir {
+    from {
+        opacity: 0;
+        transform: translateY(-22px) rotate(-6deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
+    }
+}
+
+/* --------------------- Controles --------------------- */
+.controles {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: clamp(0.8rem, 3vw, 1.2rem);
+    background: linear-gradient(180deg, rgba(6, 42, 30, 0) 0%, var(--felt-edge) 60%);
+}
+
+.btn {
+    flex: 1 1 auto;
+    min-width: 8.5rem;
+    max-width: 14rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35), 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn__icono {
+    font-size: 1.15em;
+    line-height: 1;
+}
+
+.btn--accion {
+    background: linear-gradient(180deg, #2b8cff 0%, #1463c9 100%);
+}
+
+.btn--nuevo {
+    background: linear-gradient(180deg, #e74c4c 0%, #c0392b 100%);
+}
+
+.btn:hover:not(:disabled) {
+    filter: brightness(1.08);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35), 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn:focus-visible {
+    outline: 3px solid var(--oro);
+    outline-offset: 2px;
+}
+
+.btn:disabled {
+    filter: grayscale(0.7) brightness(0.75);
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* --------------------- Responsive --------------------- */
+@media (max-width: 480px) {
+    .controles {
+        gap: 0.5rem;
+    }
+    .btn {
+        flex: 1 1 100%;
+        max-width: none;
+    }
+    .btn--accion {
+        flex: 1 1 calc(50% - 0.25rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carta,
+    .btn {
+        animation: none;
+        transition: none;
+    }
 }

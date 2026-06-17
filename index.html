@@ -4,50 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#0b3d2e">
     <title>Blackjack</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700;900&display=swap">
     <link rel="stylesheet" href="assets/css/styles.css">
-
 </head>
 <body>
-    
+
     <header class="titulo">
-        Blackjack
+        <span class="titulo__suit">&#9824;</span>
+        <h1 class="titulo__texto">Blackjack</h1>
+        <span class="titulo__suit titulo__suit--rojo">&#9829;</span>
     </header>
-    
-    <div class="row mt-2">
-        <div id="divBotones" class="col text-center">
 
-            <button id="btnNuevo" class="btn btn-danger">Nuevo Juego</button>
-            <button id="btnPedir" class="btn btn-primary">Pedir carta</button>
-            <button id="btnDetener" class="btn btn-primary">Detener</button> 
+    <main class="mesa">
 
-        </div>
-    </div>
-
-    <div class="row container">
-        <div class="col">
-
-            <h1>Jugador 1 - <small>0</small></h1>
-            <div id="jugador-cartas">
-                <!-- <img class="carta" src="assets/cartas/2C.png"> -->
+        <!-- Jugador (small index 0 — debe ir primero en el DOM) -->
+        <section class="mano mano--jugador">
+            <div class="mano__cabecera">
+                <h2 class="mano__nombre">Jugador 1</h2>
+                <span class="mano__puntos"><small>0</small></span>
             </div>
+            <div id="jugador-cartas" class="cartas"></div>
+        </section>
 
-        </div>
-    </div>
-
-    <div class="row container mt-2">
-        <div class="col">
-
-            <h1>Computadora - <small>0</small></h1>
-            <div id="computadora-cartas">
-                <!-- <img class="carta" src="assets/cartas/3C.png"> -->
+        <!-- Computadora / la banca (small index 1) -->
+        <section class="mano mano--computadora">
+            <div class="mano__cabecera">
+                <h2 class="mano__nombre">Computadora</h2>
+                <span class="mano__puntos"><small>0</small></span>
             </div>
+            <div id="computadora-cartas" class="cartas"></div>
+        </section>
 
-        </div>
+    </main>
+
+    <div class="controles">
+        <button id="btnPedir" class="btn btn--accion">
+            <span class="btn__icono">&#127183;</span> Pedir carta
+        </button>
+        <button id="btnDetener" class="btn btn--accion">
+            <span class="btn__icono">&#9995;</span> Detener
+        </button>
+        <button id="btnNuevo" class="btn btn--nuevo">
+            <span class="btn__icono">&#8635;</span> Nuevo juego
+        </button>
     </div>
-
 
     <script src="assets/js/underscore-min.js"></script>
     <script src="assets/js/juego.js"></script>
