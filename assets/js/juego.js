@@ -64,20 +64,34 @@ const valorCarta = ( carta ) => {
             : valor * 1;
 }
 
+// Espera a que una imagen termine de cargarse (y pintarse) antes de continuar
+const esperarCarta = ( img ) => {
+    if ( img.complete ) {
+        return Promise.resolve();
+    }
+    return new Promise( ( resolve ) => {
+        img.addEventListener( 'load',  resolve, { once: true } );
+        img.addEventListener( 'error', resolve, { once: true } );
+    });
+}
+
 // turno de la computadora
-const turnoComputadora = ( puntosMinimos ) => {
+const turnoComputadora = async ( puntosMinimos ) => {
+
+    const cartasComputadora = [];
 
     do {
         const carta = pedirCarta();
 
         puntosComputadora = puntosComputadora + valorCarta( carta );
         puntosHTML[1].innerText = puntosComputadora;
-        
+
         // <img class="carta" src="assets/cartas/2C.png">
         const imgCarta = document.createElement('img');
         imgCarta.src = `assets/cartas/${ carta }.png`; //3H, JD
         imgCarta.classList.add('carta');
         divCartasComputadora.append( imgCarta );
+        cartasComputadora.push( imgCarta );
 
         if( puntosMinimos > 21 ) {
             break;
@@ -85,17 +99,22 @@ const turnoComputadora = ( puntosMinimos ) => {
 
     } while(  (puntosComputadora < puntosMinimos)  && (puntosMinimos <= 21 ) );
 
-    setTimeout(() => {
-        if( puntosComputadora === puntosMinimos ) {
-            alert('Nadie gana :(');
-        } else if ( puntosMinimos > 21 ) {
-            alert('Computadora gana')
-        } else if( puntosComputadora > 21 ) {
-            alert('Jugador Gana');
-        } else {
-            alert('Computadora Gana')
-        }
-    }, 100 );
+    // Esperamos a que todas las cartas se carguen y se pinten en pantalla
+    // antes de mostrar el resultado, ya que alert() bloquea el renderizado.
+    await Promise.all( cartasComputadora.map( esperarCarta ) );
+    await new Promise( ( resolve ) =>
+        requestAnimationFrame( () => requestAnimationFrame( resolve ) )
+    );
+
+    if( puntosComputadora === puntosMinimos ) {
+        alert('Nadie gana :(');
+    } else if ( puntosMinimos > 21 ) {
+        alert('Computadora gana')
+    } else if( puntosComputadora > 21 ) {
+        alert('Jugador Gana');
+    } else {
+        alert('Computadora Gana')
+    }
 }
 
 
