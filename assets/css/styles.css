@@ -154,6 +154,59 @@ body {
     }
 }
 
+/* --------------------- Resultado --------------------- */
+.resultado {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    z-index: 20;
+    padding: clamp(0.9rem, 4vw, 1.4rem) clamp(1.4rem, 6vw, 2.6rem);
+    border-radius: 18px;
+    font-weight: 800;
+    font-size: clamp(1.3rem, 6vw, 2.4rem);
+    text-align: center;
+    white-space: nowrap;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.85);
+    border: 2px solid var(--oro);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    /* oculto por defecto */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+}
+
+.resultado--visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+    animation: aparecerResultado 0.4s ease;
+}
+
+.resultado--gana {
+    border-color: var(--oro);
+    background: linear-gradient(160deg, #166b3f 0%, #0b3d2e 100%);
+    box-shadow: 0 0 0 2px var(--oro), 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.resultado--pierde {
+    border-color: var(--rojo);
+    background: linear-gradient(160deg, #7a1f1f 0%, #3d0e0e 100%);
+}
+
+.resultado--empate {
+    border-color: #9aa0a6;
+    background: linear-gradient(160deg, #3a3f44 0%, #20242a 100%);
+}
+
+@keyframes aparecerResultado {
+    0%   { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+    60%  { transform: translate(-50%, -50%) scale(1.06); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
 /* --------------------- Controles --------------------- */
 .controles {
     position: sticky;
@@ -236,7 +289,9 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
     .carta,
-    .btn {
+    .btn,
+    .resultado,
+    .resultado--visible {
         animation: none;
         transition: none;
     }

@@ -20,7 +20,20 @@ const btnNuevo   = document.querySelector('#btnNuevo');
 const divCartasJugador     = document.querySelector('#jugador-cartas');
 const divCartasComputadora = document.querySelector('#computadora-cartas');
 
+const divResultado = document.querySelector('#resultado');
+
 const puntosHTML = document.querySelectorAll('small');
+
+// Muestra el resultado en pantalla. tipo: 'gana' | 'pierde' | 'empate'
+const mostrarResultado = ( texto, tipo ) => {
+    divResultado.textContent = texto;
+    divResultado.className = `resultado resultado--visible resultado--${ tipo }`;
+}
+
+const ocultarResultado = () => {
+    divResultado.className = 'resultado';
+    divResultado.textContent = '';
+}
 
 // Esta función crea un nuevo deck
 const crearDeck = () => {
@@ -107,13 +120,13 @@ const turnoComputadora = async ( puntosMinimos ) => {
     );
 
     if( puntosComputadora === puntosMinimos ) {
-        alert('Nadie gana :(');
+        mostrarResultado('Empate \u{1F91D}', 'empate');
     } else if ( puntosMinimos > 21 ) {
-        alert('Computadora gana')
+        mostrarResultado('Computadora gana \u{1F916}', 'pierde');
     } else if( puntosComputadora > 21 ) {
-        alert('Jugador Gana');
+        mostrarResultado('\u{1F389} ¡Ganaste!', 'gana');
     } else {
-        alert('Computadora Gana')
+        mostrarResultado('Computadora gana \u{1F916}', 'pierde');
     }
 }
 
@@ -170,6 +183,8 @@ btnNuevo.addEventListener('click', () => {
 
     divCartasComputadora.innerHTML = '';
     divCartasJugador.innerHTML = '';
+
+    ocultarResultado();
 
     btnPedir.disabled   = false;
     btnDetener.disabled = false;
