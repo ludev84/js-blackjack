@@ -246,6 +246,11 @@ body {
     line-height: 1;
 }
 
+.btn--comenzar {
+    background: linear-gradient(180deg, #f4c430 0%, #d99e1a 100%);
+    color: #1a1205;
+}
+
 .btn--accion {
     background: linear-gradient(180deg, #2b8cff 0%, #1463c9 100%);
 }
@@ -273,6 +278,10 @@ body {
     cursor: not-allowed;
     opacity: 0.7;
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.oculto {
+    display: none;
 }
 
 /* --------------------- Responsive --------------------- */

@@ -24,9 +24,10 @@ let imgHoleCard = null;   // referencia al <img> boca abajo de la banca
 let enJuego     = false;  // bloquea clicks mientras la banca juega o tras terminar
 
 // Referencias del HTML
-const btnPedir   = document.querySelector('#btnPedir');
-const btnDetener = document.querySelector('#btnDetener');
-const btnNuevo   = document.querySelector('#btnNuevo');
+const btnComenzar = document.querySelector('#btnComenzar');
+const btnPedir    = document.querySelector('#btnPedir');
+const btnDetener  = document.querySelector('#btnDetener');
+const btnNuevo    = document.querySelector('#btnNuevo');
 
 const divCartasJugador     = document.querySelector('#jugador-cartas');
 const divCartasComputadora = document.querySelector('#computadora-cartas');
@@ -157,6 +158,22 @@ const habilitarBotones = ( habilitar ) => {
     btnDetener.disabled = !habilitar;
 }
 
+// Pantalla de inicio: solo se ve "Comenzar juego"
+const mostrarInicio = () => {
+    btnComenzar.classList.remove('oculto');
+    btnPedir.classList.add('oculto');
+    btnDetener.classList.add('oculto');
+    btnNuevo.classList.add('oculto');
+}
+
+// Controles de partida: pedir / detener / nuevo
+const mostrarControlesJuego = () => {
+    btnComenzar.classList.add('oculto');
+    btnPedir.classList.remove('oculto');
+    btnDetener.classList.remove('oculto');
+    btnNuevo.classList.remove('oculto');
+}
+
 // Decide y muestra el ganador comparando ambas manos
 const determinarGanador = () => {
 
@@ -285,9 +302,14 @@ btnDetener.addEventListener('click', () => {
     turnoDealer();
 });
 
+btnComenzar.addEventListener('click', () => {
+    mostrarControlesJuego();
+    iniciarJuego();
+});
+
 btnNuevo.addEventListener('click', () => {
     iniciarJuego();
 });
 
-// Reparte la primera mano al cargar
-iniciarJuego();
+// Al cargar mostramos la pantalla de inicio; no se reparte hasta pulsar "Comenzar"
+mostrarInicio();
